@@ -21,62 +21,86 @@ namespace Sort_The_Court_Remake_Culminating
     /// </summary>
     public partial class MainWindow : Window
     {
-        int i = 900;
+        public Random random = new Random();
+        int CurrentCharacterPosition = 900;
         bool Leaving = false;
         int CounterLeaving = 0;
-        int CounterEntering = 0;
         System.Windows.Threading.DispatcherTimer gameTimer = new System.Windows.Threading.DispatcherTimer();
+        public Rectangle temp;
+        public Label CharacterSpeech;
+        Georgie georgie;
 
         public MainWindow()
         {
             InitializeComponent();
 
+            georgie =   new Georgie(this);
+
             gameTimer.Tick += GameTimer_Tick;
             gameTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);
             gameTimer.Start();
 
+            temp = new Rectangle();
+            temp.Fill = Brushes.Blue;
+            temp.Width = 125;
+            temp.Height = 125;
+            Canvas.SetTop(temp, 125);
+            canvas.Children.Add(temp);
+
+            CharacterSpeech = new Label();
+            Canvas.SetLeft(CharacterSpeech, 500);
+            Canvas.SetTop(CharacterSpeech, 30);
+            canvas.Children.Add(CharacterSpeech);
         }
 
         private void GameTimer_Tick(object sender, EventArgs e)
         {
-
-            if (i > 550 && Leaving == false)
+            this.Title = CurrentCharacterPosition.ToString();
+            ///Character Movement - Peter
+            if (CurrentCharacterPosition >= 552 && Leaving == false)
             {
-                Canvas.SetLeft(tempRect, i);
-                i = i - 2;
+                Canvas.SetLeft(temp, CurrentCharacterPosition);
+                CurrentCharacterPosition = CurrentCharacterPosition - 2;
             }               
             
             if (Leaving == true)
             {
                 CounterLeaving++;
-                if (CounterLeaving > 50 && i != 900)
+                if (CounterLeaving > 20 && CurrentCharacterPosition != 900)
                 {                   
-                    Canvas.SetLeft(tempRect, i);
-                    i = i + 2;
+                    Canvas.SetLeft(temp, CurrentCharacterPosition);
+                    CurrentCharacterPosition = CurrentCharacterPosition + 2;
                 }
             }
 
-            if (i == 900 && Leaving == true)
+            if (CurrentCharacterPosition == 898)
             {
-                CounterEntering = 0;
+                georgie.CharacterDisplay();             
+                Leaving = false;
             }
 
-            if (i == 900)
+            if (CurrentCharacterPosition == 550)
             {
-                Leaving = false;
+                georgie.CharacterSpeech();
             }
         }
 
         private void btnYes_Click(object sender, RoutedEventArgs e)
         {
-            Leaving = true;
-            CounterLeaving = 0;
+            if (CurrentCharacterPosition == 550)
+            {
+                Leaving = true;
+                CounterLeaving = 0;
+            }
         }
 
         private void btnNo_Click(object sender, RoutedEventArgs e)
         {
-            Leaving = true;
-            CounterLeaving = 0;
+            if (CurrentCharacterPosition == 550)
+            {
+                Leaving = true;                
+                CounterLeaving = 0;
+            }
         }
     }
 }
