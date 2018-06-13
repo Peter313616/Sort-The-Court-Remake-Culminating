@@ -26,9 +26,10 @@ namespace Sort_The_Court_Remake_Culminating
         bool Leaving = false;
         int CounterLeaving = 0;
         System.Windows.Threading.DispatcherTimer gameTimer = new System.Windows.Threading.DispatcherTimer();
-        public Rectangle temp;
+        public Rectangle CharaceterRectangle;
         public Label CharacterSpeech;
         Georgie georgie;
+        int TempCounter = 0;
 
         public MainWindow()
         {
@@ -40,12 +41,12 @@ namespace Sort_The_Court_Remake_Culminating
             gameTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);
             gameTimer.Start();
 
-            temp = new Rectangle();
-            temp.Fill = Brushes.Blue;
-            temp.Width = 125;
-            temp.Height = 125;
-            Canvas.SetTop(temp, 125);
-            canvas.Children.Add(temp);
+            CharaceterRectangle = new Rectangle();
+            CharaceterRectangle.Fill = Brushes.Blue;
+            CharaceterRectangle.Width = 125;
+            CharaceterRectangle.Height = 125;
+            Canvas.SetTop(CharaceterRectangle, 125);
+            canvas.Children.Add(CharaceterRectangle);
 
             CharacterSpeech = new Label();
             Canvas.SetLeft(CharacterSpeech, 500);
@@ -59,7 +60,7 @@ namespace Sort_The_Court_Remake_Culminating
             ///Character Movement - Peter
             if (CurrentCharacterPosition >= 552 && Leaving == false)
             {
-                Canvas.SetLeft(temp, CurrentCharacterPosition);
+                Canvas.SetLeft(CharaceterRectangle, CurrentCharacterPosition);
                 CurrentCharacterPosition = CurrentCharacterPosition - 2;
             }               
             
@@ -67,21 +68,24 @@ namespace Sort_The_Court_Remake_Culminating
             {
                 CounterLeaving++;
                 if (CounterLeaving > 20 && CurrentCharacterPosition != 900)
-                {                   
-                    Canvas.SetLeft(temp, CurrentCharacterPosition);
+                {
+                    TempCounter = 0;
+                    Canvas.SetLeft(CharaceterRectangle, CurrentCharacterPosition);
                     CurrentCharacterPosition = CurrentCharacterPosition + 2;
                 }
             }
 
             if (CurrentCharacterPosition == 898)
             {
-                georgie.CharacterDisplay();             
+                georgie.CharacterDisplay();
+                CharacterSpeech.Content = "";
                 Leaving = false;
             }
 
-            if (CurrentCharacterPosition == 550)
+            if (CurrentCharacterPosition == 550 && TempCounter == 0)
             {
                 georgie.CharacterSpeech();
+                TempCounter++;
             }
         }
 
@@ -91,6 +95,7 @@ namespace Sort_The_Court_Remake_Culminating
             {
                 Leaving = true;
                 CounterLeaving = 0;
+                georgie.YesResponse();
             }
         }
 
