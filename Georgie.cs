@@ -17,13 +17,16 @@ using System.IO;
 namespace Sort_The_Court_Remake_Culminating
 {
 
-
+    
     class Georgie
     {
         int IndexOfSpace = 0;
         Random random = new Random();
         MainWindow mainWindow;
         StreamReader GeorgieReader = new StreamReader("GeorgieInteraction.txt");
+        List<string> lstStream = new List<string>();
+
+        
 
         public Georgie(MainWindow m)
         {
@@ -32,32 +35,14 @@ namespace Sort_The_Court_Remake_Culminating
 
         public void CharacterSpeech()
         {
-            string FirstLine = GeorgieReader.ReadLine();
-            if (FirstLine.Length > 30)
+            for (int i = 0; i <= 5; i++)
             {
-                int speechLength = 0;
-                int LeftOverNumbers = FirstLine.Length % 40;
-                int ClosestForty = FirstLine.Length - LeftOverNumbers;
-
-                for (int i = 0; i < ClosestForty / 40; i++)
-                {
-                    string LineOutput = "";
-                    string tempReadLine = FirstLine.Substring(speechLength, 40) + "\r" + "\n";
-                    IndexOfSpace = tempReadLine.IndexOf(" ") - 1;
-                    if (i == 0)
-                    {
-                        LineOutput = FirstLine.Substring(0, 40 + IndexOfSpace) + "\r" + "\n";
-                    }
-                    else
-                    {
-                        LineOutput = FirstLine.Substring(speechLength + IndexOfSpace, 40 + IndexOfSpace) + "\r" + "\n";
-                    }
-                    mainWindow.CharacterSpeech.Content += LineOutput;
-                    speechLength += 40;
-                }
-
-                mainWindow.CharacterSpeech.Content += FirstLine.Substring(ClosestForty + IndexOfSpace + 1);
+                lstStream.Add(GeorgieReader.ReadLine());
             }
+
+            mainWindow.CharacterSpeech.Content += lstStream[0].Substring(0, 40)
+                + "\r" + "\n";
+            mainWindow.CharacterSpeech.Content += lstStream[0].Substring(40);
         }
 
         public void YesResponse()
@@ -66,23 +51,37 @@ namespace Sort_The_Court_Remake_Culminating
             int LineResponse = random.Next(1, 3);
             string Response = "";
 
-            for (int i = 0; i <= LineResponse - 1; i++)
-            {
-                Response = GeorgieReader.ReadLine();
-            }
-            MessageBox.Show(LineResponse.ToString());
+            Response = lstStream[LineResponse];
+         
             if (LineResponse == 1)
             {
                 mainWindow.CharacterSpeech.Content = Response;
             }
             else if (LineResponse == 2)
             {
-                MessageBox.Show(Response.Length.ToString());
                 mainWindow.CharacterSpeech.Content += Response.Substring(0, 40) + "\r" + "\n";
-                mainWindow.CharacterSpeech.Content += Response.Substring(40);
+                mainWindow.CharacterSpeech.Content += Response.Substring(41);
             }
         }
-    
+
+        public void NoResponse()
+        {
+            mainWindow.CharacterSpeech.Content = "";
+            int LineResponse = random.Next(4, 6);
+            string Response = "";
+
+            Response = lstStream[LineResponse - 1];
+
+            if (LineResponse == 4)
+            {
+                mainWindow.CharacterSpeech.Content = Response;
+            }
+            else if (LineResponse == 5)
+            {
+                mainWindow.CharacterSpeech.Content += Response.Substring(0, 42) + "\r" + "\n";
+                mainWindow.CharacterSpeech.Content += Response.Substring(43);
+            }
+        }
 
         public void CharacterDisplay()
         {
