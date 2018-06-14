@@ -103,6 +103,7 @@ namespace Sort_The_Court_Remake_Culminating
         {
             if (CurrentCharacterPosition == 550)
             {
+                georgie.NoResponse();
                 Leaving = true;                
                 CounterLeaving = 0;
             }
