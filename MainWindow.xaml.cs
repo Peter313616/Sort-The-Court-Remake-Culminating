@@ -30,19 +30,25 @@ namespace Sort_The_Court_Remake_Culminating
         public Label CharacterSpeech;
         Georgie georgie;
         int TempCounter = 0;
+        public int Population = 100;
+        public int Happiness = 100;
+        public int Money = 200;
+        Score score;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            georgie =   new Georgie(this);
+            georgie = new Georgie(this);
+            score = new Score(this);
 
             gameTimer.Tick += GameTimer_Tick;
             gameTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);
             gameTimer.Start();
 
+            score.CreateLabels(canvas);
+
             CharaceterRectangle = new Rectangle();
-            CharaceterRectangle.Fill = Brushes.Blue;
             CharaceterRectangle.Width = 125;
             CharaceterRectangle.Height = 125;
             Canvas.SetTop(CharaceterRectangle, 125);
@@ -62,8 +68,8 @@ namespace Sort_The_Court_Remake_Culminating
             {
                 Canvas.SetLeft(CharaceterRectangle, CurrentCharacterPosition);
                 CurrentCharacterPosition = CurrentCharacterPosition - 2;
-            }               
-            
+            }
+
             if (Leaving == true)
             {
                 CounterLeaving++;
@@ -96,6 +102,7 @@ namespace Sort_The_Court_Remake_Culminating
                 Leaving = true;
                 CounterLeaving = 0;
                 georgie.YesResponse();
+                score.CreateLabels(canvas);
             }
         }
 
@@ -106,6 +113,7 @@ namespace Sort_The_Court_Remake_Culminating
                 georgie.NoResponse();
                 Leaving = true;                
                 CounterLeaving = 0;
+                score.CreateLabels(canvas);
             }
         }
     }
