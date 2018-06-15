@@ -20,13 +20,11 @@ namespace Sort_The_Court_Remake_Culminating
     
     class Georgie
     {
-        int IndexOfSpace = 0;
         Random random = new Random();
         MainWindow mainWindow;
         StreamReader GeorgieReader = new StreamReader("GeorgieInteraction.txt");
         List<string> lstStream = new List<string>();
-
-        
+        Score score;
 
         public Georgie(MainWindow m)
         {
@@ -48,7 +46,7 @@ namespace Sort_The_Court_Remake_Culminating
         public void YesResponse()
         {
             mainWindow.CharacterSpeech.Content = "";
-            int LineResponse = random.Next(1, 3);
+            int LineResponse = random.Next(2, 3);
             string Response = "";
 
             Response = lstStream[LineResponse];
@@ -56,11 +54,14 @@ namespace Sort_The_Court_Remake_Culminating
             if (LineResponse == 1)
             {
                 mainWindow.CharacterSpeech.Content = Response;
+
             }
             else if (LineResponse == 2)
             {
                 mainWindow.CharacterSpeech.Content += Response.Substring(0, 40) + "\r" + "\n";
                 mainWindow.CharacterSpeech.Content += Response.Substring(41);
+                mainWindow.Money -= 100;
+                score.MoneyLabel.Content = "Money: " + mainWindow.Money;
             }
         }
 
@@ -80,11 +81,13 @@ namespace Sort_The_Court_Remake_Culminating
             {
                 mainWindow.CharacterSpeech.Content += Response.Substring(0, 42) + "\r" + "\n";
                 mainWindow.CharacterSpeech.Content += Response.Substring(43);
+                mainWindow.Population = mainWindow.Population - 50;
             }
         }
 
         public void CharacterDisplay()
         {
+            score = new Score(mainWindow);
             BitmapImage bitmapImage = new BitmapImage(new Uri("Georgie.png", UriKind.Relative));
             ImageBrush img = new ImageBrush(bitmapImage);
             mainWindow.CharaceterRectangle.Fill = img;
