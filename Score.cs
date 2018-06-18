@@ -21,37 +21,47 @@ namespace Sort_The_Court_Remake_Culminating
         public Label PopulationLabel;
         public Label HappinessLabel;
         public Label MoneyLabel;
-        Georgie georgie;
+        public bool GameOver = false;
         
         MainWindow mainWindow;
-
-        public Score(Georgie x)
-        {
-            georgie = x;
-        }
 
         public Score(MainWindow m)
         {
             mainWindow = m;
         }
         
+        public void UpdateLabels(Canvas canvas)
+        {
+            PopulationLabel.Content = "Population: " + mainWindow.Population;
+
+            HappinessLabel.Content = "Happiness: " + mainWindow.Happiness;
+
+            MoneyLabel.Content = "Coins: " + mainWindow.Money;
+
+            if (mainWindow.Population < 0 || mainWindow.Happiness < 0 || mainWindow.Money < 0)
+            {
+                mainWindow.CharacterSpeech.Content = "GAME OVER";
+                GameOver = true;
+            }
+        }
+
         public void CreateLabels(Canvas canvas)
         {
-            mainWindow.canvas.Children.Remove(PopulationLabel);
+            //mainWindow.canvas.Children.Remove(PopulationLabel);
             PopulationLabel = new Label();
             Canvas.SetLeft(PopulationLabel, 250);
             Canvas.SetTop(PopulationLabel, 10);
             PopulationLabel.Content = "Population: " + mainWindow.Population;
             mainWindow.canvas.Children.Add(PopulationLabel);
 
-            mainWindow.canvas.Children.Remove(HappinessLabel);
+           // mainWindow.canvas.Children.Remove(HappinessLabel);
             HappinessLabel = new Label();
             Canvas.SetLeft(HappinessLabel, 250);
             Canvas.SetTop(HappinessLabel, 30);
             HappinessLabel.Content = "Happiness: " + mainWindow.Happiness;
             mainWindow.canvas.Children.Add(HappinessLabel);
 
-            mainWindow.canvas.Children.Remove(MoneyLabel);
+            //mainWindow.canvas.Children.Remove(MoneyLabel);
             MoneyLabel = new Label();
             Canvas.SetLeft(MoneyLabel, 250);
             Canvas.SetTop(MoneyLabel, 50);
