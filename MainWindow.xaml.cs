@@ -34,6 +34,7 @@ namespace Sort_The_Court_Remake_Culminating
         public int Happiness = 100;
         public int Money = 200;
         Score score;
+        Butler butler;
 
         public MainWindow()
         {
@@ -41,6 +42,7 @@ namespace Sort_The_Court_Remake_Culminating
 
             georgie = new Georgie(this);
             score = new Score(this);
+            butler = new Butler(this);
 
             gameTimer.Tick += GameTimer_Tick;
             gameTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);
@@ -83,14 +85,19 @@ namespace Sort_The_Court_Remake_Culminating
 
             if (CurrentCharacterPosition == 898)
             {
-                georgie.CharacterDisplay();
+                butler.CharacterDisplay();
+                //georgie.CharacterDisplay();
                 CharacterSpeech.Content = "";
-                Leaving = false;
+                if (score.GameOver == false)
+                {
+                    Leaving = false;
+                }
             }
 
             if (CurrentCharacterPosition == 550 && TempCounter == 0)
             {
-                georgie.CharacterSpeech();
+                //georgie.CharacterSpeech();
+                butler.Introduction();
                 TempCounter++;
             }
         }
@@ -101,8 +108,8 @@ namespace Sort_The_Court_Remake_Culminating
             {
                 Leaving = true;
                 CounterLeaving = 0;
-                georgie.YesResponse();
-                score.CreateLabels(canvas);
+                //georgie.YesResponse();
+                score.UpdateLabels(canvas);
             }
         }
 
@@ -110,10 +117,10 @@ namespace Sort_The_Court_Remake_Culminating
         {
             if (CurrentCharacterPosition == 550)
             {
-                georgie.NoResponse();
+                //georgie.NoResponse();
                 Leaving = true;                
                 CounterLeaving = 0;
-                score.CreateLabels(canvas);
+                score.UpdateLabels(canvas);
             }
         }
     }
