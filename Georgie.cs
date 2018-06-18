@@ -46,7 +46,7 @@ namespace Sort_The_Court_Remake_Culminating
         public void YesResponse()
         {
             mainWindow.CharacterSpeech.Content = "";
-            int LineResponse = random.Next(2, 3);
+            int LineResponse = random.Next(1, 3);
             string Response = "";
 
             Response = lstStream[LineResponse];
@@ -60,8 +60,7 @@ namespace Sort_The_Court_Remake_Culminating
             {
                 mainWindow.CharacterSpeech.Content += Response.Substring(0, 40) + "\r" + "\n";
                 mainWindow.CharacterSpeech.Content += Response.Substring(41);
-                mainWindow.Money -= 100;
-                score.MoneyLabel.Content = "Money: " + mainWindow.Money;
+                mainWindow.Money -= 100;;
             }
         }
 
@@ -82,6 +81,7 @@ namespace Sort_The_Court_Remake_Culminating
                 mainWindow.CharacterSpeech.Content += Response.Substring(0, 42) + "\r" + "\n";
                 mainWindow.CharacterSpeech.Content += Response.Substring(43);
                 mainWindow.Population = mainWindow.Population - 50;
+                mainWindow.Happiness = mainWindow.Happiness - 20;
             }
         }
 
