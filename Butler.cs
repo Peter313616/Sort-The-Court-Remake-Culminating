@@ -22,7 +22,7 @@ namespace Sort_The_Court_Remake_Culminating
         MainWindow mainWindow;
         Score score;
         List<string> lstDialog = new List<string>();
-        int firstDialog = 0;
+        int firstDialog;
 
         public Butler(MainWindow m)
         {
@@ -31,6 +31,7 @@ namespace Sort_The_Court_Remake_Culminating
 
         public void CharacterDisplay()
         {
+            firstDialog = new int();
             score = new Score(mainWindow);
             BitmapImage bitmapImage = new BitmapImage(new Uri("Butler.png", UriKind.Relative));
             ImageBrush img = new ImageBrush(bitmapImage);
@@ -39,6 +40,7 @@ namespace Sort_The_Court_Remake_Culminating
 
         public void Introduction()
         {
+            
             StreamReader streamButler = new StreamReader("ButlerInteraction.txt");
             for (int i = 0; i < 6; i++)
             {
@@ -46,7 +48,7 @@ namespace Sort_The_Court_Remake_Culminating
                 //MessageBox.Show(lstDialog[i]);
             }
 
-            int firstDialog = random.Next(1, 2);
+            firstDialog = random.Next(0, 2);///selects one of the intros
             string choosenSpeech = lstDialog[firstDialog];
 
             if (firstDialog == 0)
@@ -62,15 +64,41 @@ namespace Sort_The_Court_Remake_Culminating
             }
         }
 
-        public void NoResponse()
-        {
-            int RespondToStart = firstDialog + 4;
-            string NoAnswer = lstDialog[RespondToStart];
-        }
-
         public void YesResponse()
         {
+            int respondToStart = firstDialog + 2;///picks answer depending on intro
+            string YesAnswer = lstDialog[respondToStart];
 
+            if (respondToStart == 2)
+            {
+                mainWindow.CharacterSpeech.Content = lstDialog[respondToStart];
+                mainWindow.Money -= 5;
+                mainWindow.Happiness += 10;
+            }
+            else if (respondToStart == 3)
+            {
+                mainWindow.CharacterSpeech.Content = lstDialog[respondToStart].Substring(0, 36) + "\r" + "\n";
+                mainWindow.CharacterSpeech.Content += lstDialog[respondToStart].Substring(36);
+                mainWindow.Happiness += 20;
+            }
+        }
+
+        public void NoResponse()
+        {
+            int RespondToStart = firstDialog + 4;///picks answer depending on intro
+            string NoAnswer = lstDialog[RespondToStart];
+
+            if (RespondToStart == 4)
+            {
+                mainWindow.CharacterSpeech.Content = lstDialog[RespondToStart];
+                mainWindow.Happiness -= 5;
+            }
+            else if (RespondToStart == 5)
+            {
+                mainWindow.CharacterSpeech.Content = lstDialog[RespondToStart].Substring(0, 38) + "\r" + "\n";
+                mainWindow.CharacterSpeech.Content += lstDialog[RespondToStart].Substring(38);
+                mainWindow.Happiness -= 25;
+            }
         }
     }
 }
