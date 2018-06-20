@@ -22,19 +22,21 @@ namespace Sort_The_Court_Remake_Culminating
     public partial class MainWindow : Window
     {
         public Random random = new Random();
-        int CurrentCharacterPosition = 900;
+        int CurrentCharacterPosition = 800;
         bool Leaving = false;
         int CounterLeaving = 0;
         System.Windows.Threading.DispatcherTimer gameTimer = new System.Windows.Threading.DispatcherTimer();
         public Rectangle CharaceterRectangle;
         public Label CharacterSpeech;
         Georgie georgie;
-        int TempCounter = 0;
+        int WaitingCounter = 0;
         public int Population = 100;
         public int Happiness = 100;
         public int Money = 200;
         Score score;
         Butler butler;
+        OutputCharactrer outputCharactrer;
+        public int SelectCharcter = 0;
 
         public MainWindow()
         {
@@ -43,6 +45,7 @@ namespace Sort_The_Court_Remake_Culminating
             georgie = new Georgie(this);
             score = new Score(this);
             butler = new Butler(this);
+            outputCharactrer = new OutputCharactrer(this);
 
             gameTimer.Tick += GameTimer_Tick;
             gameTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);
@@ -75,18 +78,18 @@ namespace Sort_The_Court_Remake_Culminating
             if (Leaving == true)
             {
                 CounterLeaving++;
-                if (CounterLeaving > 20 && CurrentCharacterPosition != 900)
+                if (CounterLeaving > 20 && CurrentCharacterPosition != 800)
                 {
-                    TempCounter = 0;
+                    WaitingCounter = 0;
                     Canvas.SetLeft(CharaceterRectangle, CurrentCharacterPosition);
                     CurrentCharacterPosition = CurrentCharacterPosition + 2;
                 }
             }
 
-            if (CurrentCharacterPosition == 898)
+            if (CurrentCharacterPosition == 798)
             {
-                butler.CharacterDisplay();
-                //georgie.CharacterDisplay();
+                SelectCharcter = random.Next(2, 3);
+                outputCharactrer.CharacterDisplay();
                 CharacterSpeech.Content = "";
                 if (score.GameOver == false)
                 {
@@ -94,11 +97,10 @@ namespace Sort_The_Court_Remake_Culminating
                 }
             }
 
-            if (CurrentCharacterPosition == 550 && TempCounter == 0)
+            if (CurrentCharacterPosition == 550 && WaitingCounter == 0)
             {
-                //georgie.CharacterSpeech();
-                butler.Introduction();
-                TempCounter++;
+                outputCharactrer.CharacterIntro();
+                WaitingCounter++;
             }
         }
 
@@ -108,7 +110,7 @@ namespace Sort_The_Court_Remake_Culminating
             {
                 Leaving = true;
                 CounterLeaving = 0;
-                //georgie.YesResponse();
+                outputCharactrer.CharacterYes();
                 score.UpdateLabels(canvas);
             }
         }
@@ -117,10 +119,18 @@ namespace Sort_The_Court_Remake_Culminating
         {
             if (CurrentCharacterPosition == 550)
             {
-                //georgie.NoResponse();
+                outputCharactrer.CharacterNo();
                 Leaving = true;                
                 CounterLeaving = 0;
                 score.UpdateLabels(canvas);
+            }
+        }
+
+        public void OutputCharacter()
+        {
+            if (SelectCharcter == 1)
+            {
+                georgie.CharacterDisplay();
             }
         }
     }
