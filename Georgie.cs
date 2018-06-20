@@ -31,7 +31,7 @@ namespace Sort_The_Court_Remake_Culminating
             mainWindow = m;
         }
 
-        public void CharacterSpeech()
+        public void Introduction()
         {
             for (int i = 0; i <= 5; i++)
             {
@@ -60,7 +60,7 @@ namespace Sort_The_Court_Remake_Culminating
             {
                 mainWindow.CharacterSpeech.Content += Response.Substring(0, 40) + "\r" + "\n";
                 mainWindow.CharacterSpeech.Content += Response.Substring(41);
-                mainWindow.Money -= 100;;
+                mainWindow.Money -= 50;;
             }
         }
 
